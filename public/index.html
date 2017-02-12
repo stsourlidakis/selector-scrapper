@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>selector scrapper</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style>
+		.container{
+			margin-top: 50px;
+		}
+		.watching{
+			border-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="websites-wrapper col-md-8 col-md-offset-2 text-center">
+			<div class="website form-inline well">
+				<div class="form-group">
+				<label>Url</label>
+					<input type="text" class="input-url form-control">
+				</div>
+				<div class="form-group">
+					<label>Selector</label>
+					<input type="text" class="input-selector form-control">
+				</div>
+				<button class="btn btn-success toggle-watch">Start Watching</button>
+			</div>
+		</div>
+		<div class="col-md-6 col-md-offset-3 text-center">
+			<ul class="output list-group"></ul>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<script>
+		var socket = io.connect('http://localhost');
+		$('.toggle-watch').on('click', function(){
+			var formEl = $(this).closest('.website');
+			if( !formEl.hasClass('watching') ){
+				var data = {
+					url: formEl.find('.input-url').val(),
+					selector: formEl.find('.input-selector').val()
+				};
+				socket.emit('start-watch', data);
+
+				formEl.addClass('watching');
+				formEl.find('input').attr('disabled', true);
+				$(this).text('Stop Watching').addClass('btn-danger').removeClass('btn-success');
+			} else {
+				var data = {
+					url: formEl.find('.input-url').val(),
+					selector: formEl.find('.input-selector').val()
+				};
+				socket.emit('stop-watch', data);
+
+				formEl.removeClass('watching');
+				formEl.find('input').attr('disabled', false);
+				$(this).text('Start Watching').addClass('btn-success').removeClass('btn-danger');
+			}
+
+		});
+
+		$(window).on("unload", function(){
+			var formEl = $('.website');
+			formEl.find('input').attr('disabled', false);
+			var data = {
+				url: formEl.find('.input-url').val(),
+				selector: formEl.find('.input-selector').val()
+			};
+			socket.emit('stop-watch', data);
+		});
+
+		socket.on('new-value', function (data) {
+			$('.list-group-item.list-group-item-success').removeClass('list-group-item-success').addClass('list-group-item-warning');
+			$('.output').append('<li class="list-group-item list-group-item-success">'+data.new+'</li>');
+		});
+	</script>
+</body>
+</html>
