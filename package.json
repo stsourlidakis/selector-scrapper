@@ -1,0 +1,22 @@
+{
+  "name": "selector-scrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jsdom": "^9.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stsourlidakis/selector-scrapper.git"
+  },
+  "author": "Stavros Tsourlidakis <'s.tsourlidakis@hotmail.com'>",
+  "bugs": {
+    "url": "https://github.com/stsourlidakis/selector-scrapper/issues"
+  },
+  "homepage": "https://github.com/stsourlidakis/selector-scrapper#readme"
+}
