@@ -1,9 +1,14 @@
 const jsdom = require("jsdom");
 const delay = 5;	//seconds
-const url = '';
-const ccsSelector = '';
+let url = '';
+let ccsSelector = '';
 
 let previousValue;
+
+if( process.argv.length==4 ){
+	url = process.argv[2];
+	ccsSelector = process.argv[3];
+}
 
 checkValue();
 setInterval(checkValue, delay*1000);
