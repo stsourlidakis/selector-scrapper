@@ -21,6 +21,10 @@ function checkValue(){
 	jsdom.env(	//jsdom will get the page from the provided url and then run the fuction
 		url,
 		function (err, window) {
+			if( err ){	//if an error occured, log it and exit
+				console.log(err);
+				process.exit();
+			}
 			const newValue = window.document.querySelector(ccsSelector).textContent;	//get the element's value
 			if( typeof previousValue==='undefined' ){	//check if this is the first call
 				console.log(`The value is ${newValue}`);
