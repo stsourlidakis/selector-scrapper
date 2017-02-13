@@ -1,5 +1,5 @@
 const jsdom = require("jsdom");
-const delay = 5;	//seconds
+const delay = 10;	//seconds
 let url = '';
 let ccsSelector = '';
 
@@ -18,13 +18,14 @@ function checkValue(){
 		url,
 		function (err, window) {
 			const newValue = window.document.querySelector(ccsSelector).textContent;
-			if( previousValue!==newValue && previousValue){
-				console.log(`Value changed from ${previousValue} to ${newValue}`);
-			} else {
+			if( !previousValue ){
 				console.log(`The value is ${newValue}`);
+				previousValue = newValue;
+			} else if( previousValue!==newValue ){
+				console.log(`Value changed from ${previousValue} to ${newValue}`);
+				previousValue = newValue;
 			}
 
-			previousValue = newValue;
 		}
 	);
 }
