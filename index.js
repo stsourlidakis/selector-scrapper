@@ -22,7 +22,7 @@ function checkValue(){
 		url,
 		function (err, window) {
 			const newValue = window.document.querySelector(ccsSelector).textContent;	//get the element's value
-			if( !previousValue ){	//check if this is the first call
+			if( typeof previousValue==='undefined' ){	//check if this is the first call
 				console.log(`The value is ${newValue}`);
 				previousValue = newValue;	//update the value
 			} else if( previousValue!==newValue ){	//check if the value changed from the last call
