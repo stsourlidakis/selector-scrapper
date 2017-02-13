@@ -3,11 +3,15 @@ const delay = 10;	//loop delay in seconds
 let url = '';	//default url
 let ccsSelector = '';	//default selector
 
-let previousValue;	//we need to store the value in order to compare it with next one
+let previousValue;	//we need to store the value in order to compare it with the next one
 
-if( process.argv.length==4 ){	//overwriting url/selector in case of command line arguments
+if( process.argv.length==4 ){	//overwriting url/selector variables in case of command line arguments
 	url = process.argv[2];
 	ccsSelector = process.argv[3];
+}
+
+if( url.indexOf('http')!==0 ){	//the url should start with http:// or https:// so jsdom treats it as a url
+	url = 'http://'+url;
 }
 
 checkValue();	//setInterval will wait the delay before the first call so invoke the function manually for the first time
